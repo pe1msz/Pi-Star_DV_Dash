@@ -45,7 +45,7 @@ body, font {
 }
 
 .footer {
-    background : #dd4b39;
+    background : #000099;
     text-decoration : none;
     color : #ffffff;
     font-family : verdana, arial, sans-serif;
@@ -90,7 +90,7 @@ table th {
     font-family: "Lucidia Console",Monaco,monospace;
     text-shadow: 1px 1px #8b0000;
     text-decoration: none;
-    background: #dd4b39;
+    background: #00099;
     border: 1px solid #c0c0c0;
 }
 
