@@ -28,6 +28,6 @@ do
   sudo mv ./nextion/*.tft ./nextion/backup
   sudo mv ./nextion/*.zip ./nextion/backup
   # to make it work, reset mainboard, and reboot afterwards.
-  sudo /usr/bin/cast-reset
+  sudo /usr/local/bin/cast-reset
   # sudo reboot
 done
