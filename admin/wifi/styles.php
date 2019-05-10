@@ -24,7 +24,7 @@ if (file_exists('/etc/pistar-css.ini')) {
     // Default values
     $backgroundPage = "edf0f5";         // usually off-white
     $backgroundContent = "ffffff";      // The White background in the content section
-    $backgroundBanners = "dd4b39";      // The ubiquitous Pi-Star Red
+    $backgroundBanners = "000099";      // The ubiquitous Pi-Star Cast-Blue
     $textBanners = "ffffff";            // Usually white
     $bannerDropShaddows = "303030";     // Banner drop shaddow colour
     $tableHeadDropShaddow = "8b0000";   // Table Headder drop shaddows
