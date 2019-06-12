@@ -843,11 +843,23 @@ if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
 	  //if ($newYSFStartupHost == "NONE") { unset($configysfgateway['Network']['Startup']); }
 	  //else { $configysfgateway['Network']['Startup'] = $newYSFStartupHost; }
 	  if (isset($configysfgateway['FCS Network'])) {
-		if ($newYSFStartupHostArr[0] == "none") { unset($configysfgateway['Network']['Startup']); }
-	  	else { $configysfgateway['Network']['Startup'] = $newYSFStartupHostArr[1]; }
+		if ($newYSFStartupHostArr[0] == "none") {
+			unset($configysfgateway['Network']['Startup']);
+			$configdmr2ysf['DMR Network']['DefaultDstTG'] = "9";
+		}
+	  	else {
+			$configysfgateway['Network']['Startup'] = $newYSFStartupHostArr[1];
+			$configdmr2ysf['DMR Network']['DefaultDstTG'] = str_replace("FCS", "1", $newYSFStartupHostArr[0]);
+		}
 	  } else {
-	  	if ($newYSFStartupHostArr[0] == "none") { unset($configysfgateway['Network']['Startup']); }
-	  	else { $configysfgateway['Network']['Startup'] = $newYSFStartupHostArr[0]; }
+	  	if ($newYSFStartupHostArr[0] == "none") {
+			unset($configysfgateway['Network']['Startup']);
+			$configdmr2ysf['DMR Network']['DefaultDstTG'] = "9";
+		}
+	  	else {
+			$configysfgateway['Network']['Startup'] = $newYSFStartupHostArr[0];
+			$configdmr2ysf['DMR Network']['DefaultDstTG'] = str_replace("FCS", "1", $newYSFStartupHostArr[0]);
+		}
 	  }
 	}
 
@@ -940,24 +952,36 @@ if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
 	// Set DMR / CCS7 ID
 	if (empty($_POST['dmrId']) != TRUE ) {
 	  $newPostDmrId = preg_replace('/[^0-9]/', '', $_POST['dmrId']);
-	  //$configmmdvm['DMR']['Id'] = $newPostDmrId;
-	  unset($configmmdvm['DMR']['Id']);
-	  if (empty($_POST['dmrMasterHost']) != TRUE ) {
-		  $dmrMasterHostArrTest = explode(',', escapeshellcmd($_POST['dmrMasterHost']));
-		  if (substr($dmrMasterHostArrTest[3], 0, 4) == 'DMR+') { $newPostDmrId = substr($newPostDmrId, 0, 7); }
-	  }
+	  $newPostDmrId = substr($newPostDmrId, 0, 7);
 	  $configmmdvm['General']['Id'] = $newPostDmrId;
+	  $configmmdvm['DMR']['Id'] = $newPostDmrId;
 	  $configysfgateway['General']['Id'] = $newPostDmrId;
-	  $configdmrgateway['XLX Network']['Id'] = substr($newPostDmrId,0,7);
-	  $configdmrgateway['XLX Network 1']['Id'] = substr($newPostDmrId,0,7);
-	  $configdmrgateway['DMR Network 2']['Id'] = substr($newPostDmrId,0,7);
-	  $configdmr2ysf['DMR Network']['Id'] = substr($newPostDmrId,0,7);
-	  $configdmr2nxdn['DMR Network']['Id'] = substr($newPostDmrId,0,7);
+	  $configdmrgateway['XLX Network']['Id'] = $newPostDmrId;
+	  $configdmr2ysf['DMR Network']['Id'] = $newPostDmrId;
+	  $configdmr2nxdn['DMR Network']['Id'] = $newPostDmrId;
+	}
+
+	// Set DMR Extended ID
+	if (empty($_POST['dmrExtendedId']) != TRUE ) {
+	  $newPostdmrExtendedId = preg_replace('/[^0-9]/', '', $_POST['dmrExtendedId']);
+	  $configmmdvm['DMR']['Id'] = $configmmdvm['General']['Id'].$newPostdmrExtendedId;
+	}
+
+	// Set BrandMeister Extended ID
+	if (empty($_POST['bmExtendedId']) != TRUE ) {
+	  $newPostbmExtendedId = preg_replace('/[^0-9]/', '', $_POST['bmExtendedId']);
+	  $configdmrgateway['DMR Network 1']['Id'] = $configmmdvm['General']['Id'].$newPostbmExtendedId;
+	}
+
+	// Set DMR Plus Extended ID
+	if (empty($_POST['dmrPlusExtendedId']) != TRUE ) {
+	  $newPostdmrPlusExtendedId = preg_replace('/[^0-9]/', '', $_POST['dmrPlusExtendedId']);
+	  $configdmrgateway['DMR Network 2']['Id'] = $configmmdvm['General']['Id'].$newPostdmrPlusExtendedId;
 	}
 
 	// Set YSF2DMR ID
 	if (empty($_POST['ysf2dmrId']) != TRUE ) {
-	  $newPostYsf2DmrId = preg_replace('/[^0-9]/', '', $_POST['ysf2dmrId']);	
+	  $newPostYsf2DmrId = preg_replace('/[^0-9]/', '', $_POST['ysf2dmrId']);
 	  $configysf2dmr['DMR Network']['Id'] = $newPostYsf2DmrId;
 	}
 
@@ -1540,8 +1564,8 @@ if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
 	if (!isset($configysfgateway['General']['WiresXMakeUpper'])) { $configysfgateway['General']['WiresXMakeUpper'] = "1"; }
 	if (!isset($configysfgateway['Network']['Revert'])) { $configysfgateway['Network']['Revert'] = "0"; }
 	if (!isset($configysfgateway['Network']['Port'])) { $configysfgateway['Network']['Port'] = "42000"; }
-	if (!isset($configysfgateway['Network']['YSF2DMRAddress'])) { $configysfgateway['Network']['YSF2DMRAddress'] = "127.0.0.1"; }
-	if (!isset($configysfgateway['Network']['YSF2DMRPort'])) { $configysfgateway['Network']['YSF2DMRPort'] = "42013"; }
+	if (isset($configysfgateway['Network']['YSF2DMRAddress'])) { unset($configysfgateway['Network']['YSF2DMRAddress']); }
+	if (isset($configysfgateway['Network']['YSF2DMRPort'])) { unset($configysfgateway['Network']['YSF2DMRPort']); }
 	unset($configysfgateway['Network']['DataPort']);
 	unset($configysfgateway['Network']['StatusPort']);
 	if (!isset($configysfgateway['Mobile GPS']['Enable'])) { $configysfgateway['Mobile GPS']['Enable'] = "0"; }
@@ -1562,7 +1586,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
 	if (!isset($configysf2dmr['DMR Network']['Jitter'])) { $configysf2dmr['DMR Network']['Jitter'] = "500"; }
 	if (!isset($configysf2dmr['DMR Network']['EnableUnlink'])) { $configysf2dmr['DMR Network']['EnableUnlink'] = "1"; }
 	if (!isset($configysf2dmr['DMR Network']['TGUnlink'])) { $configysf2dmr['DMR Network']['TGUnlink'] = "4000"; }
-	if (!isset($configysf2dmr['DMR Network']['PCUnlink'])) { $configysf2dmr['DMR Network']['PCUnlink'] = "0"; }	
+	if (!isset($configysf2dmr['DMR Network']['PCUnlink'])) { $configysf2dmr['DMR Network']['PCUnlink'] = "0"; }
 	if (!isset($configysf2dmr['DMR Network']['Debug'])) { $configysf2dmr['DMR Network']['Debug'] = "0"; }
 	if ( (!isset($configysf2dmr['DMR Network']['TGListFile'])) && (file_exists('/usr/local/etc/TGList_BM.txt')) ) { $configysf2dmr['DMR Network']['TGListFile'] = "/usr/local/etc/TGList_BM.txt"; }
 	if (!isset($configysf2dmr['DMR Id Lookup']['File'])) { $configysf2dmr['DMR Id Lookup']['File'] = "/usr/local/etc/DMRIds.dat"; }
@@ -1579,7 +1603,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
 	unset($configysf2dmr['DMR Network']['JitterEnabled']);
 	$configysf2dmr['Log']['DisplayLevel'] = "0";
 	$configysf2dmr['Log']['FileLevel'] = "0";
-	$configysf2dmr['aprs.fi']['Enable'] = "0";
+	if (!isset($configysf2dmr['aprs.fi']['Enable'])) { $configysf2dmr['aprs.fi']['Enable'] = "0"; }
 
 	// Add missing options to YSF2NXDN
 	$configysf2nxdn['YSF Network']['LocalPort'] = $configysfgateway['YSF Network']['YSF2NXDNPort'];
@@ -1593,7 +1617,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
 	$configysf2nxdn['Log']['FileLevel'] = "0";
 	$configysf2nxdn['Log']['FilePath'] = "/var/log/pi-star";
 	$configysf2nxdn['Log']['FileRoot'] = "YSF2NXDN";
-	$configysf2nxdn['aprs.fi']['Enable'] = "0";
+	if (!isset($configysf2nxdn['aprs.fi']['Enable'])) { $configysf2nxdn['aprs.fi']['Enable'] = "0"; }
 
 	// Add missing options to YSF2P25
 	$configysf2p25['YSF Network']['LocalPort'] = $configysfgateway['YSF Network']['YSF2P25Port'];
@@ -1659,11 +1683,11 @@ if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
 	$ysfGatewayVer = exec("YSFGateway -v | awk {'print $3'} | cut -c 1-8");
 	if ($ysfGatewayVer > 20180303) {
 		if (isset($configysfgateway['Network']['Startup'])) { $ysfTmpStartup = $configysfgateway['Network']['Startup']; }
-		$configysfgateway['aprs.fi']['Enable'] = "1";
-		unset($configysfgateway['Network']);
+		if (!isset($configysfgateway['aprs.fi']['Enable'])) { $configysfgateway['aprs.fi']['Enable'] = "1"; }
+		//unset($configysfgateway['Network']);
 		if (isset($ysfTmpStartup)) { $configysfgateway['Network']['Startup'] = $ysfTmpStartup; }
-		$configysfgateway['Network']['InactivityTimeout'] = "0";
-		$configysfgateway['Network']['Revert'] = "0";
+		if (!isset($configysfgateway['Network']['InactivityTimeout'])) { $configysfgateway['Network']['InactivityTimeout'] = "0"; }
+		if (!isset($configysfgateway['Network']['Revert'])) { $configysfgateway['Network']['Revert'] = "0"; }
 		$configysfgateway['Network']['Debug'] = "0";
 		$configysfgateway['YSF Network']['Enable'] = "1";
 		$configysfgateway['YSF Network']['Port'] = "42000";
@@ -2508,10 +2532,29 @@ else:
     <input type="radio" name="nodeMode" value="pub"<?php if ($configmmdvm['DMR']['SelfOnly'] == 0) {echo ' checked="checked"';} ?> />Public</td>
     </tr>
     <tr>
+    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['aprs_host'];?>:<span><b>APRS Host</b>Set your prefered APRS host here</span></a></td>
+    <td colspan="2" style="text-align: left;"><select name="selectedAPRSHost">
+<?php
+        $testAPSRHost = $configs['aprsHostname'];
+    	$aprsHostFile = fopen("/usr/local/etc/APRSHosts.txt", "r");
+        while (!feof($aprsHostFile)) {
+                $aprsHostFileLine = fgets($aprsHostFile);
+                $aprsHost = preg_split('/:/', $aprsHostFileLine);
+                if ((strpos($aprsHost[0], ';') === FALSE ) && ($aprsHost[0] != '')) {
+                        if ($testAPSRHost == $aprsHost[0]) { echo "      <option value=\"$aprsHost[0]\" selected=\"selected\">$aprsHost[0]</option>\n"; }
+                        else { echo "      <option value=\"$aprsHost[0]\">$aprsHost[0]</option>\n"; }
+                }
+        }
+        fclose($aprsHostFile);
+        ?>
+    </select></td>
+    </tr>
+    <tr>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['timezone'];?>:<span><b>System TimeZone</b>Set the system timezone</span></a></td>
     <td style="text-align: left;" colspan="2"><select name="systemTimezone">
 <?php
   exec('timedatectl list-timezones', $tzList);
+  if (!in_array("UTC", $tzList)) { array_push($tzList, "UTC"); }
   exec('cat /etc/timezone', $tzCurrent);
     foreach ($tzList as $timeZone) {
       if ($timeZone == $tzCurrent[0]) { echo "      <option selected=\"selected\" value=\"".$timeZone."\">".$timeZone."</option>\n"; }
@@ -2600,7 +2643,43 @@ else:
       </td>
     </tr>
     <tr>
-    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['bm_network'];?> Enable:<span><b>BrandMeister Network Enable</b></span></a></td>
+    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['bm_network'];?> ESSID:<span><b>BrandMeister Extended ID</b>This is the extended ID, to make your DMR ID 9 digits long</span></a></td>
+    <td align="left">
+<?php
+	if (isset($configdmrgateway['DMR Network 1']['Id'])) {
+		if (strlen($configdmrgateway['DMR Network 1']['Id']) > strlen($configmmdvm['General']['Id'])) {
+			$brandMeisterESSID = substr($configdmrgateway['DMR Network 1']['Id'], -2);
+		} else {
+			$brandMeisterESSID = "None";
+		}
+	} else {
+		if (isset($configmmdvm['General']['Id'])) {
+			if (strlen($configmmdvm['General']['Id']) == 9) {
+				$brandMeisterESSID = substr($configmmdvm['General']['Id'], -2);
+			} else {
+				$brandMeisterESSID = "None";
+			}
+		} else {
+			$brandMeisterESSID = "None";
+		}
+	}
+
+	if (isset($configmmdvm['General']['Id'])) { if ($configmmdvm['General']['Id'] !== "1234567") { echo substr($configmmdvm['General']['Id'], 0, 7); } }
+	echo "<select name=\"bmExtendedId\">\n";
+	if ($brandMeisterESSID == "None") { echo "      <option value=\"None\" selected=\"selected\">None</option>\n"; } else { echo "      <option value=\"None\">None</option>\n"; }
+	for ($brandMeisterESSIDInput = 1; $brandMeisterESSIDInput <= 99; $brandMeisterESSIDInput++) {
+		$brandMeisterESSIDInput = str_pad($brandMeisterESSIDInput, 2, "0", STR_PAD_LEFT);
+		if ($brandMeisterESSID === $brandMeisterESSIDInput) {
+			echo "      <option value=\"$brandMeisterESSIDInput\" selected=\"selected\">$brandMeisterESSIDInput</option>\n";
+		} else {
+			echo "      <option value=\"$brandMeisterESSIDInput\">$brandMeisterESSIDInput</option>\n";
+		}
+	}
+	echo "</select>\n";
+?>
+    </td></tr>
+    <tr>
+    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['bm_network'];?> Enable:<span><b>BrandMeister Network Enable</b>Enable or disable BrandMeister Network</span></a></td>
     <td align="left">
     <?php if ($configdmrgateway['DMR Network 1']['Enabled'] == 1) { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet1En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet1En\" value=\"ON\" checked=\"checked\" /><label for=\"toggle-dmrGatewayNet1En\"></label></div>\n"; }
     else { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet1En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet1En\" value=\"ON\" /><label for=\"toggle-dmrGatewayNet1En\"></label></div>\n"; } ?>
@@ -2636,6 +2715,42 @@ else:
     Options=<input type="text" name="dmrNetworkOptions" size="65" maxlength="100" value="<?php if (isset($configdmrgateway['DMR Network 2']['Options'])) { echo $configdmrgateway['DMR Network 2']['Options']; } ?>" />
     </td>
     </tr>
+    <tr>
+    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['dmr_plus_network'];?> ESSID:<span><b>DMR Plus Extended ID</b>This is the extended ID, to make your DMR ID 8 digits long</span></a></td>
+    <td align="left">
+<?php
+	if (isset($configdmrgateway['DMR Network 2']['Id'])) {
+		if (strlen($configdmrgateway['DMR Network 2']['Id']) > strlen($configmmdvm['General']['Id'])) {
+			$dmrPlusESSID = substr($configdmrgateway['DMR Network 2']['Id'], -2);
+		} else {
+			$dmrPlusESSID = "None";
+		}
+	} else {
+		if (isset($configmmdvm['General']['Id'])) {
+			if (strlen($configmmdvm['General']['Id']) == 9) {
+				$dmrPlusESSID = substr($configmmdvm['General']['Id'], -2);
+			} else {
+				$dmrPlusESSID = "None";
+			}
+		} else {
+			$dmrPlusESSID = "None";
+		}
+	}
+
+	if (isset($configmmdvm['General']['Id'])) { if ($configmmdvm['General']['Id'] !== "1234567") { echo substr($configmmdvm['General']['Id'], 0, 7); } }
+	echo "<select name=\"dmrPlusExtendedId\">\n";
+	if ($dmrPlusESSID == "None") { echo "      <option value=\"None\" selected=\"selected\">None</option>\n"; } else { echo "      <option value=\"None\">None</option>\n"; }
+	for ($dmrPlusESSIDInput = 1; $dmrPlusESSIDInput <= 99; $dmrPlusESSIDInput++) {
+		$dmrPlusESSIDInput = str_pad($dmrPlusESSIDInput, 2, "0", STR_PAD_LEFT);
+		if ($dmrPlusESSID === $dmrPlusESSIDInput) {
+			echo "      <option value=\"$dmrPlusESSIDInput\" selected=\"selected\">$dmrPlusESSIDInput</option>\n";
+		} else {
+			echo "      <option value=\"$dmrPlusESSIDInput\">$dmrPlusESSIDInput</option>\n";
+		}
+	}
+	echo "</select>\n";
+?>
+    </td></tr>
     <tr>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['dmr_plus_network'];?> Enable:<span><b>DMR+ Network Enable</b></span></a></td>
     <td align="left">
@@ -2758,7 +2873,39 @@ else:
     </td>
     </tr>'."\n";}
 ?>
+
+<?php if ($dmrMasterNow !== "DMRGateway") { ?>
     <tr>
+    <td align="left"><a class="tooltip2" href="#">DMR ESSID:<span><b>DMR Extended ID</b>This is the extended ID, to make your DMR ID 8 or 9 digits long</span></a></td>
+    <td align="left">
+<?php
+	if (isset($configmmdvm['DMR']['Id'])) {
+		if (strlen($configmmdvm['DMR']['Id']) > strlen($configmmdvm['General']['Id'])) {
+			$essidLen = strlen($configmmdvm['DMR']['Id']) - strlen($configmmdvm['General']['Id']);
+			$dmrESSID = substr($configmmdvm['DMR']['Id'], - $essidLen);
+		} else {
+			$dmrESSID = "None";
+		}
+	} else {
+		$dmrESSID = "None";
+	}
+
+	if (isset($configmmdvm['General']['Id'])) { if ($configmmdvm['General']['Id'] !== "1234567") { echo substr($configmmdvm['General']['Id'], 0, 7); } }
+	echo "<select name=\"dmrExtendedId\">\n";
+	if ($dmrESSID == "None") { echo "      <option value=\"None\" selected=\"selected\">None</option>\n"; } else { echo "      <option value=\"None\">None</option>\n"; }
+	for ($dmrESSIDInput = 1; $dmrESSIDInput <= 99; $dmrESSIDInput++) {
+		$dmrESSIDInput = str_pad($dmrESSIDInput, 2, "0", STR_PAD_LEFT);
+		if ($dmrESSID === $dmrESSIDInput) {
+			echo "      <option value=\"$dmrESSIDInput\" selected=\"selected\">$dmrESSIDInput</option>\n";
+		} else {
+			echo "      <option value=\"$dmrESSIDInput\">$dmrESSIDInput</option>\n";
+		}
+	}
+	echo "</select>\n";
+?>
+    </td></tr>
+    <tr>
+<?php } ?>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['dmr_cc'];?>:<span><b>DMR Color Code</b>Set your DMR Color Code here</span></a></td>
     <td style="text-align: left;"><select name="dmrColorCode">
 	<?php for ($dmrColorCodeInput = 0; $dmrColorCodeInput <= 15; $dmrColorCodeInput++) {
@@ -2916,24 +3063,6 @@ fclose($dextraFile);
     <input type="radio" name="confDefRefAuto" value="OFF"<?php if ($configs['atStartup1'] == '0') {echo ' checked="checked"';} ?> />Manual</td>
     </tr>
     <tr>
-    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['aprs_host'];?>:<span><b>APRS Host</b>Set your prefered APRS host here</span></a></td>
-    <td colspan="2" style="text-align: left;"><select name="selectedAPRSHost">
-<?php
-        $testAPSRHost = $configs['aprsHostname'];
-    	$aprsHostFile = fopen("/usr/local/etc/APRSHosts.txt", "r");
-        while (!feof($aprsHostFile)) {
-                $aprsHostFileLine = fgets($aprsHostFile);
-                $aprsHost = preg_split('/:/', $aprsHostFileLine);
-                if ((strpos($aprsHost[0], ';') === FALSE ) && ($aprsHost[0] != '')) {
-                        if ($testAPSRHost == $aprsHost[0]) { echo "      <option value=\"$aprsHost[0]\" selected=\"selected\">$aprsHost[0]</option>\n"; }
-                        else { echo "      <option value=\"$aprsHost[0]\">$aprsHost[0]</option>\n"; }
-                }
-        }
-        fclose($aprsHostFile);
-        ?>
-    </select></td>
-    </tr>
-    <tr>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['dstar_irc_lang'];?>:<span><b>ircDDBGateway Language</b>Set your prefered language here</span></a></td>
     <td colspan="2" style="text-align: left;"><select name="ircDDBGatewayAnnounceLanguage">
 <?php
@@ -3047,24 +3176,7 @@ $ysfHosts = fopen("/usr/local/etc/YSFHosts.txt", "r"); ?>
     </select></td>
     </tr>
     <tr>
-    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['aprs_host'];?>:<span><b>APRS Host</b>Set your prefered APRS host here</span></a></td>
-    <td colspan="2" style="text-align: left;"><select name="selectedAPRSHost">
-<?php
-        $testAPSRHost = $configs['aprsHostname'];
-    	$aprsHostFile = fopen("/usr/local/etc/APRSHosts.txt", "r");
-        while (!feof($aprsHostFile)) {
-                $aprsHostFileLine = fgets($aprsHostFile);
-                $aprsHost = preg_split('/:/', $aprsHostFileLine);
-                if ((strpos($aprsHost[0], ';') === FALSE ) && ($aprsHost[0] != '')) {
-                        if ($testAPSRHost == $aprsHost[0]) { echo "      <option value=\"$aprsHost[0]\" selected=\"selected\">$aprsHost[0]</option>\n"; }
-                        else { echo "      <option value=\"$aprsHost[0]\">$aprsHost[0]</option>\n"; }
-                }
-        }
-        fclose($aprsHostFile);
-        ?>
-    </select></td>
-    </tr>
-    <tr>
+
     <td align="left"><a class="tooltip2" href="#">UPPERCASE Hostfiles:<span><b>UPPERCASE Hostfiles</b>Should host files use UPPERCASE only - fixes issues with FT-70D radios.</span></a></td>
     <?php
 	if ( isset($configysfgateway['General']['WiresXMakeUpper']) ) {
@@ -3098,9 +3210,35 @@ $ysfHosts = fopen("/usr/local/etc/YSFHosts.txt", "r"); ?>
     <?php if (file_exists('/etc/dstar-radio.mmdvmhost') && $configysf2dmr['Enabled']['Enabled'] == 1) {
     $dmrMasterFile = fopen("/usr/local/etc/DMR_Hosts.txt", "r"); ?>
     <tr>
-      <td align="left"><a class="tooltip2" href="#">(YSF2DMR)<?php echo $lang['dmr_id'];?>:<span><b>CCS7/DMR ID</b>Enter your CCS7 / DMR ID here</span></a></td>
-      <td align="left" colspan="2"><input type="text" name="ysf2dmrId" size="13" maxlength="9" value="<?php if (isset($configysf2dmr['DMR Network']['Id'])) { echo $configysf2dmr['DMR Network']['Id']; } ?>" /></td>
-    </tr>
+    <td align="left"><a class="tooltip2" href="#">(YSF2DMR)<?php echo $lang['dmr_id'];?>:<span><b>CCS7/DMR ID</b>Enter your CCS7 / DMR ID here</span></a></td>
+    <td align="left" colspan="2">
+<?php
+	if (isset($configysf2dmr['DMR Network']['Id'])) {
+		if (strlen($configysf2dmr['DMR Network']['Id']) > strlen($configmmdvm['General']['Id'])) {
+			$essidYSF2DMRLen = strlen($configysf2dmr['DMR Network']['Id']) - strlen($configmmdvm['General']['Id']);
+			$ysf2dmrESSID = substr($configysf2dmr['DMR Network']['Id'], -$essidYSF2DMRLen);
+		} else {
+			$ysf2dmrESSID = "None";
+		}
+	} else {
+		$ysf2dmrESSID = "None";
+	}
+
+	if (isset($configmmdvm['General']['Id'])) { if ($configmmdvm['General']['Id'] !== "1234567") { echo substr($configmmdvm['General']['Id'], 0, 7); } }
+	if (isset($configmmdvm['General']['Id'])) { $ysf2dmrIdBase = substr($configmmdvm['General']['Id'], 0, 7); } else { $ysf2dmrIdBase = "1234567"; }
+	echo "<select name=\"ysf2dmrId\">\n";
+	if ($ysf2dmrESSID == "None") { echo "      <option value=\"$ysf2dmrIdBase\" selected=\"selected\">None</option>\n"; } else { echo "      <option value=\"None\">None</option>\n"; }
+	for ($ysf2dmrESSIDInput = 1; $ysf2dmrESSIDInput <= 99; $ysf2dmrESSIDInput++) {
+		$ysf2dmrESSIDInput = str_pad($ysf2dmrESSIDInput, 2, "0", STR_PAD_LEFT);
+		if ($ysf2dmrESSID === $ysf2dmrESSIDInput) {
+			echo "      <option value=\"$ysf2dmrIdBase$ysf2dmrESSIDInput\" selected=\"selected\">$ysf2dmrESSIDInput</option>\n";
+		} else {
+			echo "      <option value=\"$ysf2dmrIdBase$ysf2dmrESSIDInput\">$ysf2dmrESSIDInput</option>\n";
+		}
+	}
+	echo "</select>\n";
+?>
+    </td></tr>
     <tr>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['dmr_master'];?>:<span><b>DMR Master (YSF2DMR)</b>Set your prefered DMR master here</span></a></td>
     <td colspan="2" style="text-align: left;"><select name="ysf2dmrMasterHost">
@@ -3358,7 +3496,7 @@ $p25Hosts = fopen("/usr/local/etc/P25Hosts.txt", "r");
       </tr>
       <tr>
         <td align="left"><a class="tooltip2" href="#">POCSAG Whitelist:<span><b>POCSAG Whitelist</b>Set your POCSAG RIC Whitelist here, if these are set ONLY these RICs will be transmitted. List is comma seperated.</span></a></td>
-        <td align="left"><input type="text" name="pocsagWhitelist" size="60" maxlength="75" value="<?php if (isset($configdapnetgw['General']['WhiteList'])) { echo $configdapnetgw['General']['WhiteList']; } ?>" /></td>
+        <td align="left"><input type="text" name="pocsagWhitelist" size="60" maxlength="200" value="<?php if (isset($configdapnetgw['General']['WhiteList'])) { echo $configdapnetgw['General']['WhiteList']; } ?>" /></td>
       </tr>
       <tr>
         <td align="left"><a class="tooltip2" href="#">POCSAG Blacklist:<span><b>POCSAG Blacklist</b>Set your POCSAG RIC Blacklist here, if these are set any other RIC will be transmitted, but not these. List is comma seperated.</span></a></td>
