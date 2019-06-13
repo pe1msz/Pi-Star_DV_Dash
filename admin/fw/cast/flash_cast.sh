@@ -27,5 +27,5 @@ do
   sudo mv ${found} cast/backup
   sudo mv ./cast/*.zip ./cast/backup
   sudo cast-reset
-  sudo reboot
+  #sudo reboot
 done
