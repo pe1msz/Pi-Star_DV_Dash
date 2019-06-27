@@ -262,6 +262,7 @@ if (file_exists('/etc/dstar-radio.mmdvmhost')) {
 </div>
 
 <div class="footer">
+MMDVM-host written by Jonathan Naylor, G4KLX / Dashoard modified for DVMEGA-Cast by PE1MSZ and PE1PLM, </br>
 Pi-Star / Pi-Star Dashboard, &copy; Andy Taylor (MW0MWZ) 2014-<?php echo date("Y"); ?>.<br />
 ircDDBGateway Dashboard by Hans-J. Barthen (DL5DI),<br />
 MMDVMDash developed by Kim Huebel (DG9VH), <br />
