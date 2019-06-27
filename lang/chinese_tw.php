@@ -16,6 +16,7 @@ $lang = array (
   "backup_restore"              =>  "備份/還原",
   "factory_reset"               =>  "恢復出廠設定",
   "live_logs"                   =>  "日誌",
+  "FW_update"                   =>  "FW update",
   // Config page section headdings
   "hardware_info"               =>  "硬體資訊",
   "control_software"            =>  "控制軟體",

@@ -17,6 +17,7 @@ $lang = array (
   "backup_restore"              =>  "Datensicherung/Wiederherstellung",
   "factory_reset"               =>  "Werkseinstellung",
   "live_logs"                   =>  "Protokoll",
+  "FW_update"                   =>  "FW aktualisieren",
   // Config page section headdings
   "hardware_info"               =>  "Gateway Hardware Information",
   "control_software"            =>  "Kontrollsoftware",

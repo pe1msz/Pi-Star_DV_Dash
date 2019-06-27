@@ -17,6 +17,7 @@ $lang = array (
   "backup_restore"              =>  "Εφεδρικό Αντίγραφο/Επαναφορά",
   "factory_reset"               =>  "Εργοστασιακές Ρυθμίσεις",
   "live_logs"                   =>  "Αρχείο Καταγραφής",
+  "FW_update"                   =>  "FW update",
   // Config page section headdings
   "hardware_info"               =>  "Πληροφορίες Υλικού Πύλης",
   "control_software"            =>  "Πρόγραμμα Ελέγχου",

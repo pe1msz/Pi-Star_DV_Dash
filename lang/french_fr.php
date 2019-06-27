@@ -17,6 +17,7 @@ $lang = array (
   "backup_restore"              =>  "Sauvegarde/Restauration",
   "factory_reset"               =>  "R&eacute;initialisation Usine",
   "live_logs"                   =>  "Surveillance des Logs",
+  "FW_update"                   =>  "FW update",
   // Config page section headdings
   "hardware_info"               =>  "Informations mat&eacute;rielles de la passerelle",
   "control_software"            =>  "Contr&ocirc;le logiciel",

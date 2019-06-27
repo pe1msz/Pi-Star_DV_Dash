@@ -17,6 +17,7 @@ $lang = array (
   "backup_restore"              =>  "Backup/Restore",
   "factory_reset"               =>  "Ripristino",
   "live_logs"                   =>  "Live Logs",
+  "FW_update"                   =>  "FW update",
   // Config page section headdings
   "hardware_info"               =>  "Informazioni Hardware del Gateway",
   "control_software"            =>  "Software di controllo",

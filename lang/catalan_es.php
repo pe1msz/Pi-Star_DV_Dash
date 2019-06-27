@@ -18,7 +18,8 @@ $lang = array (
   "backup_restore"              =>  "Fer/Restaurar copia seguretat",
   "factory_reset"               =>  "Restaurar estat de fàbrica",
   "live_logs"                   =>  "Informes-Logs",
-  // Config page section headdings
+  "FW_update"                   =>  "FW update",
+// Config page section headdings
   "hardware_info"               =>  "Informació del maquinari",
   "control_software"            =>  "Control de programari",
   "mmdvmhost_config"            =>  "Configuració de MMDVMHost",

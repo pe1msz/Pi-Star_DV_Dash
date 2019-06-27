@@ -17,6 +17,7 @@ $lang = array (
   "backup_restore"              =>  "Yedekle/Geriyükle",
   "factory_reset"               =>  "Fabrika Ayarları",
   "live_logs"                   =>  "Sistem Günlüğü",
+  "FW_update"                   =>  "FW update",
   // Config page section headdings
   "hardware_info"               =>  "Ağ Geçidi Donanım Bilgisi",
   "control_software"            =>  "Kontrolcü Yazılımı",

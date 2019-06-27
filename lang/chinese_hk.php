@@ -18,7 +18,8 @@ $lang = array (
   "backup_restore"              =>  "備份/恢復",
   "factory_reset"               =>  "恢復出廠設定",
   "live_logs"                   =>  "日誌",
-  // Config page section headdings
+  "FW_update"                   =>  "FW update",
+// Config page section headdings
   "hardware_info"               =>  "網關硬體信息",
   "control_software"            =>  "控制軟體",
   "mmdvmhost_config"            =>  "MMDVMHost 設定",

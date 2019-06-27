@@ -17,6 +17,7 @@ $lang = array (
   "backup_restore"              =>  "Copie Rezerva/Restabilire",
   "factory_reset"               =>  "Resetare Stare Initiala",
   "live_logs"                   =>  "Jurnal Live",
+  "FW_update"                   =>  "FW update",
   // Config page section headdings
   "hardware_info"               =>  "Informatii Hardware Gateway",
   "control_software"            =>  "Control Software",

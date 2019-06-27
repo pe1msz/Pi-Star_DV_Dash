@@ -17,6 +17,7 @@ $lang = array (
   "backup_restore"              =>  "สำรองข้อมูล",
   "factory_reset"               =>  "รีเซ็ต",
   "live_logs"                   =>  "ประวัติการติดต่อ (สด)",
+  "FW_update"                   =>  "FW update",
   // Config page section headdings
   "hardware_info"               =>  "รายละเอียดของอุปกรณ์เกตเวย์",
   "control_software"            =>  "ซอฟต์แวร์ควบคุม",

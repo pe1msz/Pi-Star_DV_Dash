@@ -7,8 +7,9 @@
     <a href="/admin/update.php" style="color: #ffffff;"><?php echo $lang['update'];?></a> |
     <a href="/admin/expert/upgrade.php" style="color: #ffffff;">Upgrade</a> |
     <a href="/admin/config_backup.php" style="color: #ffffff;"><?php echo $lang['backup_restore'];?></a> |
-    <a href="/admin/configure.php" style="color: #ffffff;"><?php echo $lang['configuration'];?></a>
-  </p>
+    <a href="/admin/configure.php" style="color: #ffffff;"><?php echo $lang['configuration'];?></a> | 
+    <a href="/admin/fw/index.php" style="color: #ffffff;"><?php echo $lang['FW_update'];?></a>
+ </p>
   <p style="padding-right: 5px; text-align: right; color: #ffffff;">
     <b>Quick Edit:</b>
     <a href="edit_dstarrepeater.php" style="color: #ffffff;">DStarRepeater</a> |
