@@ -1,3 +1,3 @@
 <?php
-$version = 'CAST 20190719';
+$version = 'CAST 20191124';
 ?>
