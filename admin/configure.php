@@ -299,7 +299,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
           echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},5000);</script>';
 	  // Make the root filesystem read-only
           system('sudo mount -o remount,ro /');
-          echo " PISTAR WILL REBOOT REFRESH YOUR BROWSER IN 50 SECONDS! ";
+          echo "<h2> PISTAR WILL REBOOT REFRESH YOUR BROWSER IN 50 SECONDS! <h2> ";
 	  echo "<br />\n</div>\n";
           echo "<div class=\"footer\">\nPi-Star web config, &copy; Andy Taylor (MW0MWZ) 2014-".date("Y").".<br />\n";
           echo "Need help? Click <a style=\"color: #ffffff;\" href=\"https://www.facebook.com/groups/pistarusergroup/\" target=\"_new\">here for the Support Group</a><br />\n";
