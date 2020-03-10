@@ -292,6 +292,8 @@ if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
 	  // Over-write the config files with the clean copies
 	  exec('sudo unzip -o /usr/local/bin/config_clean.zip -d /etc/');
 	  exec('sudo rm -rf /etc/pistar-css.ini');
+	  exec('sudo rm -rf /etc/dstar-radio.mmdvmhost');
+	  exec('sudo cp /usr/local/bin/dstar-radio.mmdvmhost /etc/.');
 	  exec('sudo git --work-tree=/usr/local/sbin --git-dir=/usr/local/sbin/.git update-index --assume-unchanged pistar-upnp.service');
 	  exec('sudo git --work-tree=/usr/local/sbin --git-dir=/usr/local/sbin/.git reset --hard origin/master');
 	  exec('sudo git --work-tree=/usr/local/bin --git-dir=/usr/local/bin/.git reset --hard origin/master');
