@@ -72,8 +72,23 @@ require_once('../config/version.php');
         <center><input type="file" name="fileToUpload" id="fileToUpload"><BR><BR></center>
         <center><input type="submit" value="Upload Firmware" name="submit"><BR><BR></center>
   </tr>
+<th><BR></th>
+
    </table>
+
 </form>
+<form action="expand_fs.php" method="post" enctype="multipart/form-data">
+   <table>
+  <tr>
+        <h3>DVMEGA-Cast Expand filesystem if needed</h3>
+  </tr>
+  <tr>
+        <center>PLease click below to expand filesystem if needed.<BR><BR></center>
+        <center><input type="submit" value="Expand Now" name="submit"><BR><BR></center>
+  </tr>
+   </table>
+
+
 </div>
 <div class="footer">
 Pi-Star / Pi-Star Dashboard, &copy; Andy Taylor (MW0MWZ) 2014-<?php echo date("Y"); ?>.<br />
