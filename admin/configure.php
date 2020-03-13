@@ -2201,6 +2201,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
 	system('sudo systemctl start dmrgateway.service > /dev/null 2>/dev/null &');		// DMRGateway
 	system('sudo systemctl start dapnetgateway.service > /dev/null 2>/dev/null &');		// DAPNetGateway
         system('sudo systemctl start castserial.service > /dev/null 2>/dev/null &'); 		// start pol if not mainboard
+	system('sudo systemctl start castudp.service > /dev/null 2>/dev/null &');               // start udp-server for displaycommands
 	// Set the system timezone
 	$rollTimeZone = 'sudo timedatectl set-timezone '.escapeshellcmd($_POST['systemTimezone']);
 	system($rollTimeZone);
