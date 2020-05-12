@@ -270,7 +270,8 @@ if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
 	system('sudo systemctl stop dmr2nxdn.service > /dev/null 2>/dev/null &');		// DMR2YSF
 	system('sudo systemctl stop dmrgateway.service > /dev/null 2>/dev/null &');		// DMRGateway
 	system('sudo systemctl stop dapnetgateway.service > /dev/null 2>/dev/null &');		// DAPNetGateway
-        exec('sudo pkill castserial &');							// kill the serial poll for HS_use
+        system('sudo systemctl stop castserial.service > /dev/null 2>/dev/null &');      	// kill the serial poll for HS_use
+        
 	echo "<table>\n";
 	echo "<tr><th>Working...</th></tr>\n";
 	echo "<tr><td>Stopping services and applying your configuration changes...</td></tr>\n";
@@ -2199,7 +2200,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
 	system('sudo systemctl start dmr2nxdn.service > /dev/null 2>/dev/null &');		// DMR2NXDN
 	system('sudo systemctl start dmrgateway.service > /dev/null 2>/dev/null &');		// DMRGateway
 	system('sudo systemctl start dapnetgateway.service > /dev/null 2>/dev/null &');		// DAPNetGateway
-        exec('sudo castserial &');								// start pol if not mainboard
+        system('sudo systemctl start castserial.service > /dev/null 2>/dev/null &'); 		// start pol if not mainboard
 	// Set the system timezone
 	$rollTimeZone = 'sudo timedatectl set-timezone '.escapeshellcmd($_POST['systemTimezone']);
 	system($rollTimeZone);
