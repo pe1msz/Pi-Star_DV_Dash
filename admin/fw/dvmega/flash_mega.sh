@@ -5,7 +5,7 @@ systemctl stop pistar-watchdog.timer
 systemctl stop dstarrepeater.timer
 systemctl stop mmdvmhost.timer
 systemctl stop mmdvmhost.service
-sudo pkill castserial &
+systemctl stop castserial.service
 
 sudo mount -o remount,rw /
 FIRMWARE=./dvmega/*.hex
